@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"/Users/fredericfrancois/gits/k8s/local_eks","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
