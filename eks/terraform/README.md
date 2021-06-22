@@ -19,6 +19,10 @@ test by:
 
 ```sh
 gds aws govuk-test-admin -- kubectl get nodes
-``
+```
 
-3.
+3. Add Content-store
+
+```sh
+gds aws govuk-test-admin -- kubectl apply -f apps/content-store/app.yml
+```
