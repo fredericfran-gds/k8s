@@ -1,3 +1,5 @@
 *.ca-cert
 .vagrant/
 .terraform/
+.DS_Store
+.terraform.lock.hcl

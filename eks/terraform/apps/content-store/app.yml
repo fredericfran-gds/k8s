@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: contents-store-service
+  name: content-store
 spec:
   selector:
     app: content-store
@@ -14,7 +14,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: content-store-deployment
+  name: content-store
   labels:
     app: content-store
 spec:
