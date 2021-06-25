@@ -21,8 +21,14 @@ test by:
 gds aws govuk-test-admin -- kubectl get nodes
 ```
 
-3. Add Content-store
+3. Add all the apps: frontend, static, content-store
 
 ```sh
-gds aws govuk-test-admin -- kubectl apply -f apps/content-store/app.yml
+gds aws govuk-test-admin -- kubectl apply -f apps/<app_name>/app.yml
+```
+
+4. Get ingress address, i.e load balancer
+
+```sh 
+gds aws govuk-test-admin -- kubectl get ingress
 ```

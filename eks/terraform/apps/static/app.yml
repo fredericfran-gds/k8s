@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: content-store
+  name: static
 spec:
   type: NodePort
   selector:
-    app: content-store
+    app: static
   ports:
     - protocol: TCP
       port: 80
@@ -15,25 +15,27 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: content-store
+  name: static
   labels:
-    app: content-store
+    app: static
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: content-store
+      app: static
   template:
     metadata:
       labels:
-        app: content-store
+        app: static
     spec:
       containers:
-      - name: content-store
-        image: 172025368201.dkr.ecr.eu-west-1.amazonaws.com/content-store:bill-content-schemas
+      - name: static
+        image: 172025368201.dkr.ecr.eu-west-1.amazonaws.com/static@sha256:08c32c52ea59862893287a6701a0f24db2c792aa36f28036122f3462bd8520f9
         ports:
         - containerPort: 80
         env:
+          - name: ASSET_HOST
+            value: "https://www-origin.fred.eks.test.govuk.digital"
           - name: DEFAULT_TTL
             value: "1800"
           - name: GOVUK_APP_DOMAIN
@@ -41,25 +43,19 @@ spec:
           - name: GOVUK_APP_DOMAIN_EXTERNAL
             value: "fred.eks.test.govuk.digital"
           - name: GOVUK_APP_NAME
-            value: "content-store"
+            value: "static"
+          - name: GOVUK_APP_ROOT
+            value: "/var/apps/static"
           - name: GOVUK_APP_TYPE
             value: "rack"
-          - name: GOVUK_CONTENT_SCHEMAS_PATH
-            value: "/govuk-content-schemas"
           - name: GOVUK_ENVIRONMENT
             value: "test"
           - name: GOVUK_WEBSITE_ROOT
             value: "https://www.fred.eks.test.govuk.digital"
           - name: GOVUK_WORKSPACE
             value: "fred"
-          - name: MONGODB_URI
-            value: "mongodb://mongo-1.pink.test.govuk-internal.digital,mongo-2.pink.test.govuk-internal.digital,mongo-3.pink.test.govuk-internal.digital/content_store_production"
-          - name: PLEK_SERVICE_PUBLISHING_API_URI
-            value: "http://publishing-api-web.default.svc.cluster.local"
-          - name: PLEK_SERVICE_ROUTER_API_URI
-            value: "http://router-api.default.svc.cluster.local"
-          - name: PLEK_SERVICE_SIGNON_URI
-            value: "https://signon.fred.eks.test.govuk.digital"
+          - name: REDIS_URL
+            value: "redis://redis.fred.test.govuk-internal.digital:6379"
           - name: PORT
             value: "80"
           - name: RAILS_ENV
