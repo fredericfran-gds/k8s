@@ -321,6 +321,8 @@ resource "kubernetes_ingress" "global-ingress-fred" {
       "kubernetes.io/ingress.class" : "alb"
       "alb.ingress.kubernetes.io/scheme" : "internet-facing"
       "alb.ingress.kubernetes.io/subnets" : join(",", data.terraform_remote_state.infra_networking.outputs.public_subnet_ids)
+      "alb.ingress.kubernetes.io/listen-ports" : "[{\"HTTPS\": 443}]"
+      "alb.ingress.kubernetes.io/certificate-arn" : aws_acm_certificate_validation.public.certificate_arn
     }
   }
 
@@ -350,12 +352,15 @@ resource "kubernetes_ingress" "global-ingress-fred" {
   depends_on = [helm_release.aws-load-balancer-controller-fred]
 }
 
-# Display load balancer hostname (typically present in AWS)
-output "load_balancer_hostname" {
-  value = kubernetes_ingress.global-ingress-fred.status.0.load_balancer.0
+
+resource "aws_route53_record" "www-origin" {
+  zone_id = aws_route53_zone.public.zone_id
+  name    = "www-origin"
+  type    = "CNAME"
+  ttl     = 300
+  records = [kubernetes_ingress.global-ingress-fred.status.0.load_balancer.0.ingress.0.hostname]
 }
 
-# Display load balancer IP (typically present in GCP, or using Nginx ingress controller)
-#output "load_balancer_ip" {
-#  value = data.kubernetes_ingress.global_ingress.status.0.load_balancer.0.ingress.0.ip
-#}
+output "ingress_fqdn" {
+  value = "${aws_route53_record.www-origin.name}.${aws_route53_zone.public.name}"
+}

@@ -9,3 +9,9 @@ variable "govuk_aws_state_bucket" {
   description = "The name of the S3 bucket used for govuk-aws's terraform state files"
   default     = "govuk-terraform-steppingstone-test"
 }
+
+variable "external_domain" {
+  type        = string
+  description = "full domain where services will be accessible publicly"
+  default     = "fred-eks.test.govuk.digital"
+}
