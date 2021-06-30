@@ -32,6 +32,7 @@
    ```
 
 1. go to the bin folder and run any ruby script you want
+
    ```sh
    cd /src/bin & ruby <ruby_script_name>
    ```
