@@ -2,7 +2,7 @@
 
 ## Build & deploy image
 
-1.docker build and  tag docker image with repository & version
+1. docker build and  tag docker image with repository & version
 
    ```sh
    docker build -t <docker_image_id> <repository>:<tagname> .
