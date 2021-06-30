@@ -16,7 +16,7 @@
 1. push the docker image to the the repository
 
    ```sh
-   docker push <repository>:<tagname>
+   docker push <repository>:<tagname>
    ```
 
 1. run a one-off container of the docker image in k8s cluster
